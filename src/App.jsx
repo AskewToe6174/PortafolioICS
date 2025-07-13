@@ -8,16 +8,16 @@ const sections = [
     id: 'about',
     title: 'Sobre Mí',
     content:
-      'Soy Ivan Carpinteiro, desarrollador fullstack apasionado por crear experiencias web modernas y elegantes. Me especializo en React, Node.js, MongoDB y sistemas escalables con UI cuidada.',
-    image: 'https://i.imgur.com/1qzGn1x.png',
+      'Soy Iván Carpinteiro, Ingeniero en Sistemas Computacionales con enfoque en desarrollo backend, DevOps y administración en la nube (AWS). Me apasiona la tecnología, el trabajo en equipo y crear soluciones eficientes y escalables que generen impacto.',
+image: '../assets/thatsmeivancs.PNG',
     bgColor: 'bg-background dark:bg-background-dark',
   },
   {
     id: 'experience',
     title: 'Experiencia',
     content:
-      'He colaborado con startups y empresas grandes creando aplicaciones web, APIs y herramientas de automatización. Manejo metodologías ágiles y trabajo en equipo con pasión por la calidad.',
-    image: 'https://i.imgur.com/4ZJqlwI.png',
+      'He trabajado como Desarrollador Backend y DevOps en empresas como Invercratos y Lawyers DSB, donde lideré tareas de automatización, despliegue, infraestructura en AWS y desarrollo con tecnologías como Node.js y GraphQL. También cuento con experiencia en soporte técnico y desarrollo web.',
+image: '../assets/thatsme2program.PNG',
     bgColor: 'bg-background dark:bg-background-dark',
   },
   {
@@ -37,11 +37,12 @@ const sections = [
   {
     id: 'contact',
     title: 'Contacto',
-    content: 'Puedes escribirme a ivan@example.com o encontrarme en GitHub y LinkedIn. Siempre abierto a nuevas oportunidades.',
+    content: 'Puedes escribirme a carpinteirosalazari@gmail.com o contactarme por LinkedIn y GitHub. Estoy disponible para colaborar o trabajar en nuevos proyectos.',
     image: 'https://i.imgur.com/GGmjQph.png',
     bgColor: 'bg-background dark:bg-background-dark',
   },
 ];
+
 
 // --- Proyectos ---
 const projectList = [
@@ -76,13 +77,21 @@ const projectList = [
 
 // --- Habilidades ---
 const skills = [
-  { name: 'React', level: 90 },
+  { name: 'JavaScript', level: 90 },
   { name: 'Node.js', level: 85 },
-  { name: 'MongoDB', level: 80 },
-  { name: 'TailwindCSS', level: 75 },
-  { name: 'JavaScript', level: 95 },
-  { name: 'TypeScript', level: 70 },
+  { name: 'NestJS', level: 80 },
+  { name: 'GraphQL', level: 70 },
+  { name: 'Python', level: 75 },
+  { name: 'C/C++', level: 70 },
+  { name: 'SQL Server', level: 85 },
+  { name: 'PostgreSQL', level: 75 },
+  { name: 'MongoDB', level: 60 },
+  { name: 'AWS (EC2, EKS, RDS, IAM...)', level: 75 },
+  { name: 'Linux', level: 80 },
+  { name: 'Docker/Kubernetes', level: 70 },
+
 ];
+
 
 // --- Barra de habilidades ---
 function SkillBar({ skill }) {
@@ -204,24 +213,35 @@ function Modal({ project, onClose }) {
 // --- Nueva sección Timeline para experiencia ---
 const experienceItems = [
   {
-    title: 'Desarrollador Fullstack',
-    company: 'Startup X',
-    period: '2022 - Presente',
-    description: 'Creación de aplicaciones web escalables usando React, Node.js y MongoDB.',
+    title: 'Backend & DevOps Developer',
+    company: 'LAWYERS DSB',
+    period: '2024 - 2025',
+    description:
+      'Desarrollé APIs con Node.js y NestJS, gestioné infraestructuras en AWS, CI/CD y bases de datos MySQL para sistemas robustos y escalables.',
   },
   {
-    title: 'Desarrollador Frontend',
-    company: 'Empresa Y',
-    period: '2020 - 2022',
-    description: 'Diseño y desarrollo de interfaces responsivas con React y TailwindCSS.',
+    title: 'Desarrollador Full Stack',
+    company: 'EXSIM',
+    period: 'Octubre - Noviembre 2024',
+    description:
+      'Programé aplicaciones de escritorio en Delphi y desarrollé APIs para módulos especializados de Microsip.',
   },
   {
-    title: 'Pasante en Desarrollo',
-    company: 'Compañía Z',
-    period: '2019 - 2020',
-    description: 'Soporte en desarrollo y mantenimiento de aplicaciones internas.',
+    title: 'Desarrollador DevOps',
+    company: 'Invercratos S.A.P.I. de C.V.',
+    period: '2023 - 2024',
+    description:
+      'Administré servicios en AWS y contenedores con Kubernetes, automatizando despliegues y monitoreo continuo.',
+  },
+  {
+    title: 'Soporte Técnico & Desarrollo Web',
+    company: 'Euromaquinados Hermanos S.A. de C.V.',
+    period: '2020 - 2021',
+    description:
+      'Mantenimiento de equipos de cómputo, desarrollo de aplicaciones internas y soporte en automatización de procesos.',
   },
 ];
+
 
 function Timeline() {
   return (
@@ -411,7 +431,7 @@ export default function App() {
               className="w-10 h-10 rounded-full border border-borderLight dark:border-borderLight-dark"
             />
             <span className="ml-3 text-primary dark:text-primary-dark font-bold text-lg sm:text-xl font-press-start whitespace-nowrap">
-              IVAN CARPINTEIRO SALAZAR
+              IVAN CLOUD ENGINEER
             </span>
           </div>
 
@@ -448,7 +468,7 @@ export default function App() {
                 initial={{ opacity: 0, x: -60 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
-                className="max-w-lg rounded-lg overflow-hidden shadow-glass dark:shadow-glass-dark border border-borderLight dark:border-borderLight-dark"
+                className="max-w-lg rounded-lg overflow-hidden shadow-glass dark:shadow-glass-dark "
               >
                 <img src={sec.image} alt={sec.title} className="w-full h-auto object-cover" />
               </motion.div>
@@ -515,31 +535,29 @@ export default function App() {
 
       {/* Footer */}
       <footer className="fixed bottom-0 left-0 w-full bg-glass dark:bg-glass-dark backdrop-blur-xs border-t border-borderLight dark:border-borderLight-dark flex justify-center gap-10 py-3 shadow-glass dark:shadow-glass-dark z-40">
-        <a
-          href="https://github.com/ivancarpi"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-textPrimary dark:text-textPrimary-dark hover:text-primary dark:hover:text-primary-dark transition text-2xl"
-          aria-label="GitHub"
-        >
-          <FiGithub />
-        </a>
-        <a
-          href="https://linkedin.com/in/ivancarpi"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-textPrimary dark:text-textPrimary-dark hover:text-primary dark:hover:text-primary-dark transition text-2xl"
-          aria-label="LinkedIn"
-        >
-          <FiLinkedin />
-        </a>
-        <a
-          href="mailto:ivan@example.com"
-          className="text-textPrimary dark:text-textPrimary-dark hover:text-primary dark:hover:text-primary-dark transition text-2xl"
-          aria-label="Email"
-        >
-          <FiMail />
-        </a>
+       <a
+  href="https://github.com/AskewToe6174"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="GitHub"
+>
+  <FiGithub />
+</a>
+<a
+  href="www.linkedin.com/in/ivan-carpinteiro-salazar-ab1915311"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="LinkedIn"
+>
+  <FiLinkedin />
+</a>
+<a
+  href="mailto:carpinteirosalazari@gmail.com"
+  aria-label="Email"
+>
+  <FiMail />
+</a>
+
       </footer>
 
       {/* Modal */}
