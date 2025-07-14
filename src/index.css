@@ -30,6 +30,13 @@
   pointer-events: none;
 }
 
+/* tailwind.css, globals.css o donde cargues los estilos base */
+html,
+body {
+  overflow-x: hidden;       /* quita el scroll horizontal */
+  max-width: 100vw;         /* evita que ‘vw’ mal calculados se pasen  */
+  overscroll-behavior-x: none; /* desactiva la “resistencia” lateral de Safari */
+}
 
 
 * {

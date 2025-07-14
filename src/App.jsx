@@ -343,7 +343,7 @@ function CustomCursor() {
     if (!shot) return;
     let raf;
     const animate = () => {
-      setShot((s) => (s && s.y > -20 ? { ...s, y: s.y - 0.1 } : null));
+      setShot((s) => (s && s.y > -20 ? { ...s, y: s.y - 0.01 } : null));
       raf = requestAnimationFrame(animate);
     };
     animate();
