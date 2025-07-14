@@ -1,4 +1,4 @@
-/* ---------- IMPORTACIONES COMPLETAS (actualizadas) ---------- */
+/* --------------------------- IMPORTACIONES --------------------------- */
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
@@ -11,22 +11,18 @@ import {
   SiAmazonaws,
   SiAwsamplify,
 } from "react-icons/si";
-
 import { Card } from "@nextui-org/react";
 
 import thatsmivancs from "./thatsme2program.png";
 import thatsme2program from "./thatsmeivancs.png";
 import LogoSVG from "./LogoSVG";
 
-/* Componente MotionCard basado en Card de NextUI */
+/* Si luego necesitas usarlo */
 const MotionCard = motion(Card);
-/* ------------------------------------------------------------- */
 
-
-/* -------------------------------------------------------------------------- */
-/*                             DATOS Y SECCIONES                              */
-/* -------------------------------------------------------------------------- */
-
+/* -------------------------------------------------------------------- */
+/*                               DATA                                   */
+/* -------------------------------------------------------------------- */
 const sections = [
   {
     id: "about",
@@ -69,10 +65,6 @@ son clave para avanzar en esta área que evoluciona constantemente.`,
     bgColor: "bg-background dark:bg-background-dark",
   },
 ];
-
-/* -------------------------------------------------------------------------- */
-/*                          PROYECTOS DESTACADOS                              */
-/* -------------------------------------------------------------------------- */
 
 const projectList = [
   {
@@ -131,10 +123,6 @@ const projectList = [
   },
 ];
 
-/* -------------------------------------------------------------------------- */
-/*                                HABILIDADES                                 */
-/* -------------------------------------------------------------------------- */
-
 const skills = [
   { name: "JavaScript", level: 90 },
   { name: "Node.js", level: 85 },
@@ -150,13 +138,11 @@ const skills = [
   { name: "Docker/Kubernetes", level: 70 },
 ];
 
-/* -------------------------------------------------------------------------- */
-/*                               COMPONENTES                                  */
-/* -------------------------------------------------------------------------- */
+const NEON_PALETTE = ["#00f0ff", "#ff00f0", "#00ff5e", "#ffe600"];
 
-
-const NEON_PALETTE = ["#00f0ff", "#ff00f0", "#00ff5e", "#ffe600"]; // ciclo de colores
-
+/* -------------------------------------------------------------------- */
+/*                      COMPONENTES REUTILIZABLES                       */
+/* -------------------------------------------------------------------- */
 function SkillBar({ skill }) {
   const blocks = 20;
   const filled = Math.round((skill.level / 100) * blocks);
@@ -172,11 +158,11 @@ function SkillBar({ skill }) {
         </span>
       </div>
 
-      {/* barra tipo “vida” */}
       <motion.div
         className="flex space-x-[3px] group cursor-crosshair"
         initial="rest"
         whileHover="hover"
+        whileTap="hover"
       >
         {Array.from({ length: blocks }).map((_, i) => (
           <motion.div
@@ -209,27 +195,27 @@ function SkillBar({ skill }) {
     </div>
   );
 }
+
 function useActiveSection(setActive) {
   const sectionRefs = useRef([]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries) =>
         entries.forEach((entry) => {
           if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      },
+        }),
       { threshold: 0.6 }
     );
-    sectionRefs.current.forEach((s) => s && observer.observe(s));
-    return () => sectionRefs.current.forEach((s) => s && observer.unobserve(s));
+    sectionRefs.current.forEach((el) => el && observer.observe(el));
+    return () =>
+      sectionRefs.current.forEach((el) => el && observer.unobserve(el));
   }, [setActive]);
 
   return sectionRefs;
 }
 
-/* --------------------------- Modal de proyectos --------------------------- */
-
+/* ----------------------------- MODAL --------------------------------- */
 function Modal({ project, onClose }) {
   return (
     <AnimatePresence>
@@ -281,8 +267,7 @@ function Modal({ project, onClose }) {
   );
 }
 
-/* -------------------------- Timeline de experiencia ----------------------- */
-
+/* ------------------------- TIMELINE EXPERIENCIA ---------------------- */
 const experienceItems = [
   {
     title: "Backend & DevOps Developer",
@@ -342,28 +327,32 @@ function Timeline() {
   );
 }
 
-/* ------------------------- Cursor personalizado -------------------------- */
-
+/* ------------------------- CURSOR PERSONALIZADO ---------------------- */
 function CustomCursor() {
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [shot, setShot] = useState(null);
+  const [showCursor, setShowCursor] = useState(!navigator.maxTouchPoints);
 
   useEffect(() => {
-    const mv = (e) => setPos({ x: e.clientX, y: e.clientY });
-    const md = () => setShot({ x: pos.x, y: pos.y - 20 });
-    window.addEventListener("mousemove", mv);
-    window.addEventListener("mousedown", md);
-    return () => {
-      window.removeEventListener("mousemove", mv);
-      window.removeEventListener("mousedown", md);
+    const move = (e) => {
+      setPos({ x: e.clientX, y: e.clientY });
+      setShowCursor(e.pointerType !== "touch");
     };
-  }, [pos]);
+    const down = (e) => setShot({ x: e.clientX, y: e.clientY - 20 });
+
+    window.addEventListener("pointermove", move, { passive: true });
+    window.addEventListener("pointerdown", down, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerdown", down);
+    };
+  }, []);
 
   useEffect(() => {
     if (!shot) return;
     let raf;
     const animate = () => {
-      setShot((s) => (s && s.y > -20 ? { ...s, y: s.y - 0.01 } : null));
+      setShot((s) => (s && s.y > -20 ? { ...s, y: s.y - 0.4 } : null));
       raf = requestAnimationFrame(animate);
     };
     animate();
@@ -400,47 +389,49 @@ function CustomCursor() {
         </svg>
       )}
 
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 24 24"
-        style={{
-          position: "fixed",
-          top: pos.y,
-          left: pos.x,
-          pointerEvents: "none",
-          transform: "translate(-50%,-50%)",
-          zIndex: 9999,
-          cursor: "none",
-        }}
-        className="pixelated"
-      >
-        <rect x="6" y="10" width="12" height="6" className="invader-body" rx="1" ry="1" />
-        <rect x="4" y="12" width="4" height="2" className="invader-body" rx="1" ry="1" />
-        <rect x="16" y="12" width="4" height="2" className="invader-body" rx="1" ry="1" />
-        <rect x="9" y="6" width="6" height="6" className="invader-body" rx="1" ry="1" />
-        <rect x="11" y="8" width="2" height="2" className="invader-eye" rx="0.5" ry="0.5" />
-        <rect x="15" y="8" width="2" height="2" className="invader-eye" rx="0.5" ry="0.5" />
-      </svg>
+      {showCursor && (
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          style={{
+            position: "fixed",
+            top: pos.y,
+            left: pos.x,
+            pointerEvents: "none",
+            transform: "translate(-50%,-50%)",
+            zIndex: 9999,
+            cursor: "none",
+          }}
+          className="pixelated"
+        >
+          <rect x="6" y="10" width="12" height="6" className="invader-body" rx="1" ry="1" />
+          <rect x="4" y="12" width="4" height="2" className="invader-body" rx="1" ry="1" />
+          <rect x="16" y="12" width="4" height="2" className="invader-body" rx="1" ry="1" />
+          <rect x="9" y="6" width="6" height="6" className="invader-body" rx="1" ry="1" />
+          <rect x="11" y="8" width="2" height="2" className="invader-eye" rx="0.5" ry="0.5" />
+          <rect x="15" y="8" width="2" height="2" className="invader-eye" rx="0.5" ry="0.5" />
+        </svg>
+      )}
     </>
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*                               APP PRINCIPAL                                */
-/* -------------------------------------------------------------------------- */
-
+/* -------------------------------------------------------------------- */
+/*                              APP ROOT                                */
+/* -------------------------------------------------------------------- */
 export default function App() {
   const [active, setActive] = useState(sections[0].id);
   const [modalProject, setModalProject] = useState(null);
-  const sectionRefs = useActiveSection(setActive);
   const [isDark, setIsDark] = useState(false);
+  const sectionRefs = useActiveSection(setActive);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const listener = (e) => setIsDark(e.matches);
     setIsDark(mq.matches);
-    mq.addEventListener("change", (e) => setIsDark(e.matches));
-    return () => mq.removeEventListener("change", () => null);
+    mq.addEventListener("change", listener);
+    return () => mq.removeEventListener("change", listener);
   }, []);
 
   useEffect(() => {
@@ -460,17 +451,21 @@ export default function App() {
               IVAN CLOUD ENGINEER
             </span>
           </div>
+
           <div className="flex flex-wrap justify-center flex-grow gap-2 sm:gap-4">
             {sections.map((sec) => (
               <button
                 key={sec.id}
                 onClick={() =>
-                  document.getElementById(sec.id).scrollIntoView({ behavior: "smooth" })
+                  document
+                    .getElementById(sec.id)
+                    .scrollIntoView({ behavior: "smooth" })
                 }
-                className={`text-xs sm:text-sm font-bold uppercase px-3 py-1 sm:px-4 sm:py-2 rounded-full transition ${active === sec.id
+                className={`text-xs sm:text-sm font-bold uppercase px-3 py-1 sm:px-4 sm:py-2 rounded-full transition ${
+                  active === sec.id
                     ? "bg-primary dark:bg-primary-dark text-white shadow"
                     : "text-textPrimary dark:text-textPrimary-dark hover:bg-primary dark:hover:bg-primary-dark hover:text-white"
-                  }`}
+                }`}
               >
                 {sec.title}
               </button>
@@ -479,7 +474,7 @@ export default function App() {
         </div>
       </nav>
 
-      {/* ----------------------------- SECCIONES ----------------------------- */}
+      {/* ----------------------------- SECCIONES --------------------------- */}
       <main>
         {sections.map((sec, i) => (
           <section
@@ -488,7 +483,6 @@ export default function App() {
             ref={(el) => (sectionRefs.current[i] = el)}
             className={`${sec.bgColor} min-h-screen flex flex-col lg:flex-row items-center justify-center px-6 sm:px-10 lg:px-32 gap-10 lg:gap-20`}
           >
-            {/* Imagen */}
             {sec.image && (
               <motion.div
                 initial={{ opacity: 0, x: -100 }}
@@ -506,94 +500,75 @@ export default function App() {
               </motion.div>
             )}
 
-            {/* Contenido */}
-<motion.div
-  initial={{ opacity: 0, x: 100 }}
-  whileInView={{ opacity: 1, x: 0 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.8, delay: 0.3 }}
-  /* 👇  SIN max-w-xl cuando id === 'projects'  */
-  className={`flex-1 w-full ${sec.id === 'projects' ? 'max-w-none' : 'max-w-xl'}`}
->
-  {/* Título y texto compartidos */}
-<h2
-  className={`
-    text-3xl sm:text-4xl mb-6 font-press-start glitch
-    text-textPrimary dark:text-textPrimary-dark
-    ${['projects', 'contact'].includes(sec.id) ? 'text-center w-full' : ''}
-  `}
->
-  {sec.title}
-</h2>
-
-
-  {sec.content && (
-    <p className="mb-6 text-textSecondary dark:text-textSecondary-dark whitespace-pre-line">
-      {sec.content}
-    </p>
-  )}
-
-  {/* ------------------- SKILLS y EXPERIENCIA ------------------- */}
-  {sec.id === 'skills'     && skills.map((s, i) => <SkillBar key={i} skill={s} />)}
-  {sec.id === 'experience' && <Timeline />}
-
-  {/* ------------------------ PROYECTOS ------------------------ */}
-  {sec.id === 'projects' && (
-    <div
-      className="
-        grid w-full gap-6
-        [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]
-      "
-    >
-      {projectList.map((project) => (
-        <motion.div
-          key={project.id}
-          whileHover={{ scale: 1.03 }}
-          onClick={() => setModalProject(project)}
-          className="
-            flex flex-col h-full overflow-hidden cursor-pointer
-            rounded-lg p-6 shadow-lg border transition-transform
-            bg-cardBg dark:bg-cardBg-dark
-            border-borderLight dark:border-borderLight-dark
-          "
-        >
-          {/* Título */}
-          <h3
-            style={{ fontSize: 'clamp(1rem,0.8rem+1vw,1.6rem)' }}
-            className="font-press-start mb-2 truncate text-textPrimary dark:text-textPrimary-dark"
-          >
-            {project.title}
-          </h3>
-
-          {/* Descripción */}
-          <p
-            className="
-              mb-4 flex-grow line-clamp-3 overflow-hidden
-              text-textSecondary dark:text-textSecondary-dark
-              text-[clamp(0.875rem,0.75rem+0.5vw,1rem)]
-            "
-          >
-            {project.shortDesc}
-          </p>
-
-          {/* Tech pills */}
-          <div className="flex flex-wrap gap-2 mt-auto">
-            {project.tech.map((tech) => (
-              <span
-                key={tech}
-                className="px-2 py-1 rounded text-xs font-semibold text-white bg-primary dark:bg-primary-dark"
+            <motion.div
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className={`flex-1 w-full ${
+                sec.id === "projects" ? "max-w-none" : "max-w-xl"
+              }`}
+            >
+              <h2
+                className={`text-3xl sm:text-4xl mb-6 font-press-start glitch text-textPrimary dark:text-textPrimary-dark ${
+                  ["projects", "contact"].includes(sec.id)
+                    ? "text-center w-full"
+                    : ""
+                }`}
               >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  )}
+                {sec.title}
+              </h2>
 
-  {/* ------------------------ CONTACTO ------------------------ */}
-              {sec.id === 'contact' && (
+              {sec.content && (
+                <p className="mb-6 text-textSecondary dark:text-textSecondary-dark whitespace-pre-line">
+                  {sec.content}
+                </p>
+              )}
+
+              {sec.id === "skills" &&
+                skills.map((s, idx) => <SkillBar key={idx} skill={s} />)}
+
+              {sec.id === "experience" && <Timeline />}
+
+              {sec.id === "projects" && (
+                <div className="grid w-full gap-6 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+                  {projectList.map((project) => (
+                    <motion.div
+                      key={project.id}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 1.03 }}
+                      onClick={() => setModalProject(project)}
+                      className="flex flex-col h-full overflow-hidden cursor-pointer rounded-lg p-6 shadow-lg border transition-transform bg-cardBg dark:bg-cardBg-dark border-borderLight dark:border-borderLight-dark"
+                    >
+                      <h3
+                        style={{
+                          fontSize: "clamp(1rem,0.8rem+1vw,1.6rem)",
+                        }}
+                        className="font-press-start mb-2 truncate text-textPrimary dark:text-textPrimary-dark"
+                      >
+                        {project.title}
+                      </h3>
+
+                      <p className="mb-4 flex-grow line-clamp-3 overflow-hidden text-textSecondary dark:text-textSecondary-dark text-[clamp(0.875rem,0.75rem+0.5vw,1rem)]">
+                        {project.shortDesc}
+                      </p>
+
+                      <div className="flex flex-wrap gap-2 mt-auto">
+                        {project.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-2 py-1 rounded text-xs font-semibold text-white bg-primary dark:bg-primary-dark"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+
+              {sec.id === "contact" && (
                 <div className="mt-6 flex flex-col items-center space-y-4">
                   <div className="flex gap-6">
                     <a
@@ -625,8 +600,7 @@ export default function App() {
                   {sec.component}
                 </div>
               )}
-</motion.div>
-
+            </motion.div>
           </section>
         ))}
       </main>

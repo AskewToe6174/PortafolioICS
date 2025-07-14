@@ -1,4 +1,3 @@
-// src/components/LogoSVG.jsx
 export default function LogoSVG({ color = '#000000', size = 40 }) {
   return (
     <svg
