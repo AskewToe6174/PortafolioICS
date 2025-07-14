@@ -72,7 +72,7 @@
   position: relative;
   color: #00ffff;
   font-weight: bold;
-  animation: glitch 3s infinite ease-in-out;
+  animation: glitch 0.2s infinite ease-in-out;
   text-shadow: 2px 0 red, -2px 0 blue;
   user-select: none;
 }
