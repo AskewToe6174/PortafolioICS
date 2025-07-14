@@ -154,40 +154,61 @@ const skills = [
 /*                               COMPONENTES                                  */
 /* -------------------------------------------------------------------------- */
 
+
+const NEON_PALETTE = ["#00f0ff", "#ff00f0", "#00ff5e", "#ffe600"]; // ciclo de colores
+
 function SkillBar({ skill }) {
-  const blocksCount = 20;
-  const filledBlocks = Math.round((skill.level / 100) * blocksCount);
+  const blocks = 20;
+  const filled = Math.round((skill.level / 100) * blocks);
 
   return (
-    <div className="mb-4">
+    <div className="mb-5 font-mono">
       <div className="flex justify-between mb-1">
-        <span className="font-semibold text-textPrimary dark:text-textPrimary-dark">
+        <span className="font-bold text-textPrimary dark:text-textPrimary-dark tracking-wider">
           {skill.name}
         </span>
         <span className="text-textSecondary dark:text-textSecondary-dark">
           {skill.level}%
         </span>
       </div>
-      <div className="flex space-x-1">
-        {[...Array(blocksCount)].map((_, i) => (
+
+      {/* barra tipo “vida” */}
+      <motion.div
+        className="flex space-x-[3px] group cursor-crosshair"
+        initial="rest"
+        whileHover="hover"
+      >
+        {Array.from({ length: blocks }).map((_, i) => (
           <motion.div
             key={i}
-            className={`w-5 h-5 rounded-sm border border-borderLight dark:border-borderLight-dark ${i < filledBlocks
-                ? "bg-primary dark:bg-primary-dark"
-                : "bg-transparent"
-              }`}
-            whileHover={{
-              scale: i < filledBlocks ? 1.2 : 1,
-              rotate: i < filledBlocks ? [0, 10, -10, 0] : 0,
+            variants={{
+              rest: {
+                scale: 1,
+                backgroundColor:
+                  i < filled ? "var(--neon-default)" : "transparent",
+                boxShadow:
+                  i < filled ? "0 0 0px var(--neon-default)" : "none",
+              },
+              hover: {
+                scale: i < filled ? 1.25 : 1,
+                backgroundColor:
+                  i < filled
+                    ? NEON_PALETTE[i % NEON_PALETTE.length]
+                    : "#2c2c2c",
+                boxShadow:
+                  i < filled
+                    ? `0 0 8px ${NEON_PALETTE[i % NEON_PALETTE.length]}`
+                    : "none",
+                transition: { duration: 0.4, yoyo: Infinity },
+              },
             }}
-            transition={{ type: "spring", stiffness: 300 }}
+            className="w-[18px] h-[18px] md:w-5 md:h-5 rounded-[2px] border pixel-border"
           />
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
-
 function useActiveSection(setActive) {
   const sectionRefs = useRef([]);
 

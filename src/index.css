@@ -83,3 +83,18 @@ body {
   text-shadow: 2px 0 red, -2px 0 blue;
   user-select: none;
 }
+/* === Retro SkillBar y variables neón === */
+:root {
+  --neon-default: #00f0ff;   /* color base “encendido” */
+}
+
+.pixel-border {
+  border: 1px solid #3a3a3a; /* marco oscuro pixelado */
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+/* Glow en estado reposo */
+.pixel-border[style*="background-color: var(--neon-default)"] {
+  box-shadow: 0 0 4px var(--neon-default);
+}
