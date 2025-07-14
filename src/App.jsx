@@ -520,11 +520,12 @@ export default function App() {
   className={`
     text-3xl sm:text-4xl mb-6 font-press-start glitch
     text-textPrimary dark:text-textPrimary-dark
-    ${sec.id === 'projects' ? 'text-center w-full' : ''}
+    ${['projects', 'contact'].includes(sec.id) ? 'text-center w-full' : ''}
   `}
 >
   {sec.title}
 </h2>
+
 
   {sec.content && (
     <p className="mb-6 text-textSecondary dark:text-textSecondary-dark whitespace-pre-line">
@@ -592,11 +593,38 @@ export default function App() {
   )}
 
   {/* ------------------------ CONTACTO ------------------------ */}
-  {sec.id === 'contact' && (
-    <div className="mt-6 flex flex-col items-center space-y-6">
-      {/* …íconos y componente… */}
-    </div>
-  )}
+              {sec.id === 'contact' && (
+                <div className="mt-6 flex flex-col items-center space-y-4">
+                  <div className="flex gap-6">
+                    <a
+                      href="mailto:carpinteirosalazari@gmail.com"
+                      className="text-primary dark:text-primary-dark text-3xl hover:text-secondary dark:hover:text-secondary-dark transition"
+                      aria-label="Email"
+                    >
+                      <FiMail />
+                    </a>
+                    <a
+                      href="https://github.com/AskewToe6174"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary dark:text-primary-dark text-3xl hover:text-secondary dark:hover:text-secondary-dark transition"
+                      aria-label="GitHub"
+                    >
+                      <FiGithub />
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/in/ivan-carpinteiro-salazar-ab1915311"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary dark:text-primary-dark text-3xl hover:text-secondary dark:hover:text-secondary-dark transition"
+                      aria-label="LinkedIn"
+                    >
+                      <FiLinkedin />
+                    </a>
+                  </div>
+                  {sec.component}
+                </div>
+              )}
 </motion.div>
 
           </section>
