@@ -1,4 +1,3 @@
-/* --------------------------- IMPORTACIONES --------------------------- */
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
@@ -17,12 +16,8 @@ import thatsmivancs from "./thatsme2program.png";
 import thatsme2program from "./thatsmeivancs.png";
 import LogoSVG from "./LogoSVG";
 
-/* Si luego necesitas usarlo */
 const MotionCard = motion(Card);
 
-/* -------------------------------------------------------------------- */
-/*                               DATA                                   */
-/* -------------------------------------------------------------------- */
 const sections = [
   {
     id: "about",
@@ -140,9 +135,7 @@ const skills = [
 
 const NEON_PALETTE = ["#00f0ff", "#ff00f0", "#00ff5e", "#ffe600"];
 
-/* -------------------------------------------------------------------- */
-/*                      COMPONENTES REUTILIZABLES                       */
-/* -------------------------------------------------------------------- */
+
 function SkillBar({ skill }) {
   const blocks = 20;
   const filled = Math.round((skill.level / 100) * blocks);
@@ -215,7 +208,6 @@ function useActiveSection(setActive) {
   return sectionRefs;
 }
 
-/* ----------------------------- MODAL --------------------------------- */
 function Modal({ project, onClose }) {
   return (
     <AnimatePresence>
@@ -267,7 +259,6 @@ function Modal({ project, onClose }) {
   );
 }
 
-/* ------------------------- TIMELINE EXPERIENCIA ---------------------- */
 const experienceItems = [
   {
     title: "Backend & DevOps Developer",
@@ -327,7 +318,6 @@ function Timeline() {
   );
 }
 
-/* ------------------------- CURSOR PERSONALIZADO ---------------------- */
 function CustomCursor() {
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [shot, setShot] = useState(null);
@@ -417,9 +407,7 @@ function CustomCursor() {
   );
 }
 
-/* -------------------------------------------------------------------- */
-/*                              APP ROOT                                */
-/* -------------------------------------------------------------------- */
+
 export default function App() {
   const [active, setActive] = useState(sections[0].id);
   const [modalProject, setModalProject] = useState(null);
@@ -442,7 +430,6 @@ export default function App() {
     <div>
       <CustomCursor />
 
-      {/* ----------------------------- NAVBAR ----------------------------- */}
       <nav className="fixed top-4 inset-x-0 mx-auto w-full max-w-screen px-4 sm:px-8 z-50">
         <div className="flex flex-wrap items-center bg-glass dark:bg-glass-dark backdrop-blur-xs rounded-full px-4 py-3 shadow-glass dark:shadow-glass-dark border border-borderLight dark:border-borderLight-dark gap-3 sm:gap-6">
           <div className="flex items-center flex-shrink-0">
@@ -474,7 +461,6 @@ export default function App() {
         </div>
       </nav>
 
-      {/* ----------------------------- SECCIONES --------------------------- */}
       <main>
         {sections.map((sec, i) => (
           <section
@@ -605,7 +591,6 @@ export default function App() {
         ))}
       </main>
 
-      {/* ----------------------------- FOOTER ----------------------------- */}
       <footer className="fixed bottom-0 inset-x-0 bg-glass dark:bg-glass-dark backdrop-blur-xs border-t border-borderLight dark:border-borderLight-dark flex justify-center gap-10 py-3 shadow-glass dark:shadow-glass-dark z-40">
         <a
           href="https://github.com/AskewToe6174"
@@ -628,7 +613,6 @@ export default function App() {
         </a>
       </footer>
 
-      {/* ------------------------------ MODAL ------------------------------ */}
       <Modal project={modalProject} onClose={() => setModalProject(null)} />
     </div>
   );
