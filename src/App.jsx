@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
-
+import thatsmivancs from './thatsme2program.png';
+import thatsme2program from './thatsmeivancs.png';
 import {
   SiReact,
   SiNodedotjs,
@@ -26,7 +27,7 @@ const sections = [
       ya que permite escalar aplicaciones y servicios de forma eficiente, flexible y segura. Mi objetivo es crear soluciones innovadoras que ayuden a las empresas a 
       transformarse digitalmente y a ser más competitivas mediante arquitecturas cloud bien diseñadas y automatización. Estoy convencido de que el aprendizaje continuo y la colaboración 
       son clave para avanzar en esta área que evoluciona constantemente.`,
-    image: '../assets/thatsmeivancs.PNG',
+    image: thatsme2program,
     bgColor: 'bg-background dark:bg-background-dark',
   },
   {
@@ -34,7 +35,7 @@ const sections = [
     title: 'Experiencia',
     content:
       'He trabajado como Desarrollador Backend y DevOps en empresas como Invercratos y Lawyers DSB, donde lideré tareas de automatización, despliegue, infraestructura en AWS y desarrollo con tecnologías como Node.js y GraphQL. También cuento con experiencia en soporte técnico y desarrollo web.',
-    image: '../assets/thatsme2program.PNG',
+    image: thatsmivancs,
     bgColor: 'bg-background dark:bg-background-dark',
   },
   {
