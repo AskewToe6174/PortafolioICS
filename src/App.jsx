@@ -2,14 +2,31 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 
-// --- Datos y secciones originales ---
+import {
+  SiReact,
+  SiNodedotjs,
+  SiMongodb,
+  SiExpress,
+  SiTailwindcss,
+  SiSequelize,
+  SiNestjs,
+  SiAwsamplify,
+  SiAmazonaws,
+} from 'react-icons/si';
+
+import LogoSVG from './LogoSVG';
+
+// --- Datos y secciones ---
 const sections = [
   {
     id: 'about',
     title: 'Sobre Mí',
     content:
-      'Soy Iván Carpinteiro, Ingeniero en Sistemas Computacionales con enfoque en desarrollo backend, DevOps y administración en la nube (AWS). Me apasiona la tecnología, el trabajo en equipo y crear soluciones eficientes y escalables que generen impacto.',
-image: '../assets/thatsmeivancs.PNG',
+      `Mi verdadera pasión es la nube y todo el ecosistema que la rodea. Creo firmemente que la computación en la nube es el futuro de muchas industrias, 
+      ya que permite escalar aplicaciones y servicios de forma eficiente, flexible y segura. Mi objetivo es crear soluciones innovadoras que ayuden a las empresas a 
+      transformarse digitalmente y a ser más competitivas mediante arquitecturas cloud bien diseñadas y automatización. Estoy convencido de que el aprendizaje continuo y la colaboración 
+      son clave para avanzar en esta área que evoluciona constantemente.`,
+    image: '../assets/thatsmeivancs.PNG',
     bgColor: 'bg-background dark:bg-background-dark',
   },
   {
@@ -17,7 +34,7 @@ image: '../assets/thatsmeivancs.PNG',
     title: 'Experiencia',
     content:
       'He trabajado como Desarrollador Backend y DevOps en empresas como Invercratos y Lawyers DSB, donde lideré tareas de automatización, despliegue, infraestructura en AWS y desarrollo con tecnologías como Node.js y GraphQL. También cuento con experiencia en soporte técnico y desarrollo web.',
-image: '../assets/thatsme2program.PNG',
+    image: '../assets/thatsme2program.PNG',
     bgColor: 'bg-background dark:bg-background-dark',
   },
   {
@@ -30,7 +47,6 @@ image: '../assets/thatsme2program.PNG',
   {
     id: 'projects',
     title: 'Proyectos',
-    content: 'Estos son algunos de mis proyectos destacados. Haz click en cada tarjeta para más detalles.',
     image: null,
     bgColor: 'bg-background dark:bg-background-dark',
   },
@@ -38,40 +54,67 @@ image: '../assets/thatsme2program.PNG',
     id: 'contact',
     title: 'Contacto',
     content: 'Puedes escribirme a carpinteirosalazari@gmail.com o contactarme por LinkedIn y GitHub. Estoy disponible para colaborar o trabajar en nuevos proyectos.',
-    image: 'https://i.imgur.com/GGmjQph.png',
+    image: null,
+    component: <LogoSVG color="#00f0ff" size={180} />,
     bgColor: 'bg-background dark:bg-background-dark',
   },
 ];
 
-
-// --- Proyectos ---
+// --- Proyecto destacado con detalle técnico ---
 const projectList = [
   {
-    id: 'task-manager',
-    title: 'Gestor de Tareas',
-    shortDesc: 'Aplicación fullstack para gestionar tareas, con React y Node.js.',
+    id: 'api-rest-node',
+    title: 'API REST Full con Node.js',
+    shortDesc:
+      'API con base de datos relacional usando Node.js. Implementada con queries directas mediante Sequelize para optimizar tiempos y evitar crear modelos complejos.',
     detailedDesc:
-      'Proyecto completo con autenticación, CRUD de tareas, filtros por usuario, fechas y estados. Usé MongoDB, Express y React con diseño responsivo y animaciones.',
-    tech: ['React', 'Node.js', 'MongoDB', 'Express', 'TailwindCSS'],
-    link: 'https://github.com/ivancarpi/task-manager',
+      '1. API REST full con base de datos relacional usando Node.js. En este proyecto se realizó usando queries mediante Sequelize, por los requerimientos de tiempo se optó por ello debido a que daba mayor agilización y evitaba la creación de modelos.\n\n' +
+      'Tecnologías usadas: Node.js, Sequelize, MySQL.\n' +
+      'Plataforma: Servidor Linux.\n' +
+      'Despliegue: VPS con PM2 y Nginx proxy reverso.\n\n',
+    tech: ['Node.js', 'Sequelize', 'MySQL'],
+    techDetails: [
+      { name: 'Node.js', icon: <SiNodedotjs size={20} color="#3c873a" /> },
+      { name: 'Sequelize', icon: <SiSequelize size={20} color="#52B0E7" /> },
+      { name: 'MySQL', icon: <SiMongodb size={20} color="#4479A1" /> }, // No hay icono oficial MySQL, usé MongoDB icon como placeholder
+    ],
   },
   {
-    id: 'pos-android-windows',
-    title: 'Punto de Venta Android/Windows',
-    shortDesc: 'Sistema multiplataforma para gestionar órdenes y facturación.',
+    id: 'api-nestjs',
+    title: 'Migración API a NestJS',
+    shortDesc:
+      'Migración completa de API REST a NestJS, utilizando mejores prácticas y métodos ORM, sin usar queries directas.',
     detailedDesc:
-      'App Android para crear órdenes sincronizadas con app Windows que imprime tickets. Comunicación en tiempo real, diseño intuitivo y rendimiento optimizado.',
-    tech: ['React Native', 'Electron', 'Socket.io', 'Node.js'],
-    link: 'https://github.com/ivancarpi/pos-android-windows',
+      '2. Migración a API con NestJS sin queries: La migración completa de la API REST full Node.js a NestJS usando las mejores prácticas. Todos los endpoints fueron traducidos a su versión con métodos de modelos (find, delete, etc.).\n\n' +
+      'Tecnologías usadas: NestJS, TypeORM, PostgreSQL.\n' +
+      'Plataforma: Contenedores Docker.\n' +
+      'Despliegue: Kubernetes (EKS) en AWS.\n\n',
+    tech: ['NestJS', 'TypeORM', 'PostgreSQL', 'Docker', 'Kubernetes'],
+    techDetails: [
+      { name: 'NestJS', icon: <SiNestjs size={20} color="#E0234E" /> },
+      { name: 'PostgreSQL', icon: <SiMongodb size={20} color="#336791" /> }, // Uso icono Mongo como placeholder
+      { name: 'Docker', icon: <SiTailwindcss size={20} color="#2496ED" /> }, // Uso Tailwind icon por falta de Docker oficial en react-icons
+      { name: 'Kubernetes', icon: <SiAmazonaws size={20} color="#3C99D3" /> }, // Uso AWS icon para Kubernetes placeholder
+    ],
   },
   {
-    id: 'chatbot-ai',
-    title: 'Chatbot IA',
-    shortDesc: 'Chatbot inteligente para atención al cliente con NLP.',
+    id: 'aws-optimization',
+    title: 'Optimización de Recursos en AWS',
+    shortDesc:
+      'Optimización de recursos y costos en AWS, implementando buenas prácticas para escalabilidad y eficiencia.',
     detailedDesc:
-      'Sistema basado en NLP y ML para responder consultas frecuentes, integrado con WhatsApp y sitio web. Mejora continua con feedback de usuarios.',
-    tech: ['Python', 'TensorFlow', 'Node.js', 'React'],
-    link: 'https://github.com/ivancarpi/chatbot-ai',
+      '3. Optimización de recursos en AWS respetando buenas prácticas para mejorar rendimiento y costo sin comprometer la infraestructura.\n\n' +
+      'Tecnologías usadas: AWS EC2, S3, Lambda, CloudWatch, IAM.\n' +
+      'Estrategias: Automatización de escalado, monitoreo continuo, auditoría de permisos y optimización de almacenamiento.\n' +
+      'Despliegue: Infraestructura como código con AWS CloudFormation y Terraform.\n\n',
+    tech: ['AWS', 'CloudFormation', 'Terraform', 'Lambda', 'EC2'],
+    techDetails: [
+      { name: 'AWS', icon: <SiAmazonaws size={20} color="#FF9900" /> },
+      { name: 'CloudFormation', icon: <SiAwsamplify size={20} color="#FF9900" /> },
+      { name: 'Terraform', icon: <SiAwsamplify size={20} color="#6F42C1" /> }, // Uso icono AWS Amplify como placeholder para Terraform
+      { name: 'Lambda', icon: <SiAmazonaws size={20} color="#FF9900" /> },
+      { name: 'EC2', icon: <SiAmazonaws size={20} color="#FF9900" /> },
+    ],
   },
 ];
 
@@ -89,9 +132,7 @@ const skills = [
   { name: 'AWS (EC2, EKS, RDS, IAM...)', level: 75 },
   { name: 'Linux', level: 80 },
   { name: 'Docker/Kubernetes', level: 70 },
-
 ];
-
 
 // --- Barra de habilidades ---
 function SkillBar({ skill }) {
@@ -108,11 +149,8 @@ function SkillBar({ skill }) {
         {[...Array(blocksCount)].map((_, i) => (
           <motion.div
             key={i}
-            className={`w-5 h-5 rounded-sm border border-borderLight dark:border-borderLight-dark ${
-              i < filledBlocks
-                ? 'bg-primary dark:bg-primary-dark'
-                : 'bg-transparent'
-            }`}
+            className={`w-5 h-5 rounded-sm border border-borderLight dark:border-borderLight-dark ${i < filledBlocks ? 'bg-primary dark:bg-primary-dark' : 'bg-transparent'
+              }`}
             whileHover={{ scale: i < filledBlocks ? 1.2 : 1, rotate: i < filledBlocks ? [0, 10, -10, 0] : 0 }}
             transition={{ type: 'spring', stiffness: 300 }}
           />
@@ -121,7 +159,6 @@ function SkillBar({ skill }) {
     </div>
   );
 }
-
 
 // --- Hook para detectar sección activa en scroll ---
 function useActiveSection(setActive) {
@@ -175,28 +212,22 @@ function Modal({ project, onClose }) {
             <h3 className="text-3xl mb-4 font-press-start text-textPrimary dark:text-textPrimary-dark">
               {project.title}
             </h3>
-            <p className="mb-4 text-textSecondary dark:text-textSecondary-dark">{project.detailedDesc}</p>
+            <pre className="mb-4 whitespace-pre-wrap text-textSecondary dark:text-textSecondary-dark" style={{ whiteSpace: 'pre-wrap' }}>
+              {project.detailedDesc}
+            </pre>
             <div className="mb-4">
-              <strong className="text-textPrimary dark:text-textPrimary-dark">Tecnologías:</strong>
-              <ul className="flex flex-wrap gap-2 mt-2">
-                {project.tech.map((tech) => (
+              <strong className="text-textPrimary dark:text-textPrimary-dark">Tecnologías y plataformas:</strong>
+              <ul className="flex flex-wrap gap-3 mt-2">
+                {project.techDetails.map(({ name, icon }) => (
                   <li
-                    key={tech}
-                    className="bg-primary dark:bg-primary-dark px-3 py-1 rounded text-sm text-white shadow"
+                    key={name}
+                    className="flex items-center gap-2 bg-primary dark:bg-primary-dark px-3 py-1 rounded text-white text-sm font-semibold shadow"
                   >
-                    {tech}
+                    {icon} {name}
                   </li>
                 ))}
               </ul>
             </div>
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary dark:text-primary-dark underline font-semibold"
-            >
-              Ver repositorio
-            </a>
             <button
               onClick={onClose}
               className="mt-6 px-4 py-2 bg-primary dark:bg-primary-dark rounded text-white hover:bg-secondary dark:hover:bg-secondary-dark transition"
@@ -242,7 +273,6 @@ const experienceItems = [
   },
 ];
 
-
 function Timeline() {
   return (
     <div className="relative border-l-4 border-primary dark:border-primary-dark ml-6 pl-6 space-y-10">
@@ -255,7 +285,6 @@ function Timeline() {
           transition={{ duration: 0.6, delay: index * 0.3 }}
           className="relative"
         >
-          {/* Punto en la línea */}
           <span className="absolute -left-7 top-2 w-5 h-5 rounded-full bg-primary dark:bg-primary-dark border-2 border-background dark:border-background-dark"></span>
 
           <h3 className="text-xl font-bold text-textPrimary dark:text-textPrimary-dark">
@@ -272,8 +301,6 @@ function Timeline() {
 }
 
 // --- Cursor personalizado ---
-
-
 function CustomCursor() {
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [clicked, setClicked] = useState(false);
@@ -283,7 +310,7 @@ function CustomCursor() {
     const onMouseMove = (e) => setPos({ x: e.clientX, y: e.clientY });
     const onMouseDown = () => {
       setClicked(true);
-      setShot({ x: pos.x, y: pos.y - 20 }); // posición inicial del disparo
+      setShot({ x: pos.x, y: pos.y - 20 });
     };
     const onMouseUp = () => setClicked(false);
 
@@ -298,7 +325,6 @@ function CustomCursor() {
     };
   }, [pos]);
 
-  // Animar el disparo hacia arriba
   useEffect(() => {
     if (!shot) return;
     let animationFrame;
@@ -307,7 +333,7 @@ function CustomCursor() {
     function animate() {
       setShot((s) => {
         if (!s) return null;
-        if (s.y < 0) return null; // fuera de pantalla, eliminar disparo
+        if (s.y < 0) return null;
         return { ...s, y: s.y - speed };
       });
       animationFrame = requestAnimationFrame(animate);
@@ -339,7 +365,6 @@ function CustomCursor() {
         }
       `}</style>
 
-      {/* Disparo */}
       {shot && (
         <svg
           width="6"
@@ -359,7 +384,6 @@ function CustomCursor() {
         </svg>
       )}
 
-      {/* Navecita */}
       <svg
         width="32"
         height="32"
@@ -376,21 +400,16 @@ function CustomCursor() {
         className="pixelated"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Cuerpo */}
         <rect x="6" y="10" width="12" height="6" className="invader-body" rx="1" ry="1" />
-        {/* Alas */}
         <rect x="4" y="12" width="4" height="2" className="invader-body" rx="1" ry="1" />
         <rect x="16" y="12" width="4" height="2" className="invader-body" rx="1" ry="1" />
-        {/* Cabeza */}
         <rect x="9" y="6" width="6" height="6" className="invader-body" rx="1" ry="1" />
-        {/* Ojos */}
         <rect x="11" y="8" width="2" height="2" className="invader-eye" rx="0.5" ry="0.5" />
         <rect x="15" y="8" width="2" height="2" className="invader-eye" rx="0.5" ry="0.5" />
       </svg>
     </>
   );
 }
-
 
 // --- App principal ---
 export default function App() {
@@ -423,14 +442,10 @@ export default function App() {
 
       {/* Navbar */}
       <nav className="fixed top-4 left-0 right-0 mx-auto w-full max-w-screen px-4 sm:px-8 z-50">
-        <div className="flex items-center bg-glass dark:bg-glass-dark backdrop-blur-xs rounded-full px-4 py-3 shadow-glass dark:shadow-glass-dark border border-borderLight dark:border-borderLight-dark overflow-x-auto no-scrollbar space-x-4 sm:space-x-8">
+        <div className="flex items-center bg-glass dark:bg-glass-dark backdrop-blur-xs rounded-full px-4 py-3 shadow-glass dark:shadow-glass-dark border border-borderLight dark:border-borderLight-dark overflow-x-auto no-scrollbar gap-4 sm:gap-8 whitespace-nowrap">
           <div className="flex items-center flex-shrink-0 mr-4">
-            <img
-              src="/logo.png"
-              alt="Logo"
-              className="w-10 h-10 rounded-full border border-borderLight dark:border-borderLight-dark"
-            />
-            <span className="ml-3 text-primary dark:text-primary-dark font-bold text-lg sm:text-xl font-press-start whitespace-nowrap">
+            <LogoSVG color={isDark ? '#00f0ff' : '#005f7f'} size={40} />
+            <span className="ml-3 text-primary dark:text-primary-dark font-bold text-sm sm:text-xl font-press-start">
               IVAN CLOUD ENGINEER
             </span>
           </div>
@@ -439,17 +454,14 @@ export default function App() {
             <button
               key={sec.id}
               onClick={() => document.getElementById(sec.id).scrollIntoView({ behavior: 'smooth' })}
-              className={`text-xs sm:text-sm font-bold uppercase px-4 py-2 rounded-full transition whitespace-nowrap ${
-                active === sec.id
-                  ? 'bg-primary dark:bg-primary-dark text-white shadow'
-                  : 'text-textPrimary dark:text-textPrimary-dark hover:bg-primary dark:hover:bg-primary-dark hover:text-white'
-              }`}
+              className={`text-xs sm:text-sm font-bold uppercase px-4 py-2 rounded-full transition ${active === sec.id
+                ? 'bg-primary dark:bg-primary-dark text-white shadow'
+                : 'text-textPrimary dark:text-textPrimary-dark hover:bg-primary dark:hover:bg-primary-dark hover:text-white'
+                }`}
             >
-              
               {sec.title}
             </button>
           ))}
-          
         </div>
       </nav>
 
@@ -462,105 +474,148 @@ export default function App() {
             ref={(el) => (sectionRefs.current[i] = el)}
             className={`${sec.bgColor} min-h-screen flex flex-col md:flex-row items-center justify-center px-10 md:px-40 gap-10`}
           >
-            {sec.image && (
+            {sec.image && typeof sec.image === 'string' && (
               <motion.div
                 key={sec.id + '-image'}
-                initial={{ opacity: 0, x: -60 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, x: -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="max-w-lg rounded-lg overflow-hidden shadow-glass dark:shadow-glass-dark "
+                className="flex-1 max-w-sm"
               >
-                <img src={sec.image} alt={sec.title} className="w-full h-auto object-cover" />
+                <img
+                  src={sec.image}
+                  alt={sec.title}
+                  className="w-full max-w-sm object-contain" // opcional: ajusta tamaño
+                  style={{ border: 'none', boxShadow: 'none' }} // 🔥 aquí eliminamos el borde/sombra
+                  loading="lazy"
+                />
+
               </motion.div>
             )}
 
             <motion.div
-              key={sec.id + '-text'}
-              initial={{ opacity: 0, x: 60 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="max-w-xl"
+              key={sec.id + '-content'}
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="flex-1 max-w-xl"
             >
-              <h2 className="glitch text-5xl mb-6 font-press-start">
-                {sec.title}
-              </h2>
-
-              {sec.id === 'skills' ? (
-                <div>
-                  {skills.map((skill) => (
-                    <SkillBar key={skill.name} skill={skill} />
-                  ))}
-                </div>
-              ) : sec.id === 'experience' ? (
-                <Timeline />
-              ) : (
-                <p className="text-lg text-textSecondary dark:text-textSecondary-dark leading-relaxed">
+<h2 className="text-4xl font-press-start glitch mb-6 text-textPrimary dark:text-textPrimary-dark">
+  {sec.title}
+</h2>
+              {sec.content && (
+                <p className="mb-6 text-textSecondary dark:text-textSecondary-dark whitespace-pre-line">
                   {sec.content}
                 </p>
               )}
 
-              {sec.id === 'projects' && (
-                <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {projectList.map((project) => (
-                    <motion.div
-                      key={project.id}
-                      whileHover={{ scale: 1.05, boxShadow: '0 8px 20px rgba(0,0,0,0.15)' }}
-                      className="bg-cardBg dark:bg-cardBg-dark p-6 rounded-lg cursor-pointer border border-borderLight dark:border-borderLight-dark shadow-glass dark:shadow-glass-dark transition-shadow"
-                      onClick={() => setModalProject(project)}
-                    >
-                      <h3 className="text-2xl font-semibold mb-3 text-textPrimary dark:text-textPrimary-dark">
-                        {project.title}
-                      </h3>
-                      <p className="text-sm mb-4 text-textSecondary dark:text-textSecondary-dark">
-                        {project.shortDesc}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.map((tech) => (
-                          <span
-                            key={tech}
-                            className="bg-primary dark:bg-primary-dark px-3 py-1 rounded text-white text-xs font-semibold shadow"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </motion.div>
+              {/* Skills section */}
+              {sec.id === 'skills' && (
+                <>
+                  {skills.map((skill, idx) => (
+                    <SkillBar key={idx} skill={skill} />
                   ))}
+                </>
+              )}
+
+              {/* Experience section */}
+              {sec.id === 'experience' && <Timeline />}
+
+              {/* Projects section */}
+              {sec.id === 'projects' && (
+                <>
+                  <p className="mb-6 text-textSecondary dark:text-textSecondary-dark">{sec.content}</p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-6 max-w-xl mx-auto">
+                    {projectList.map((project) => (
+                      <motion.div
+                        key={project.id}
+                        className="bg-cardBg dark:bg-cardBg-dark rounded-lg p-6 shadow-lg cursor-pointer border border-borderLight dark:border-borderLight-dark"
+                        whileHover={{ scale: 1.03 }}
+                        onClick={() => setModalProject(project)}
+                      >
+                        <h3 className="text-2xl font-press-start text-textPrimary dark:text-textPrimary-dark mb-2">{project.title}</h3>
+                        <p className="text-textSecondary dark:text-textSecondary-dark mb-4">{project.shortDesc}</p>
+                        <div className="flex flex-wrap gap-3">
+                          {project.tech.map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-2 py-1 bg-primary dark:bg-primary-dark rounded text-white text-xs font-semibold"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {/* Contact section */}
+              {sec.id === 'contact' && (
+                <div className="mt-6 flex flex-col items-center space-y-4">
+                  <div className="flex gap-6">
+                    <a
+                      href="mailto:carpinteirosalazari@gmail.com"
+                      className="text-primary dark:text-primary-dark text-3xl hover:text-secondary dark:hover:text-secondary-dark transition"
+                      aria-label="Email"
+                    >
+                      <FiMail />
+                    </a>
+                    <a
+                      href="https://github.com/AskewToe6174"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary dark:text-primary-dark text-3xl hover:text-secondary dark:hover:text-secondary-dark transition"
+                      aria-label="GitHub"
+                    >
+                      <FiGithub />
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/in/ivan-carpinteiro-salazar-ab1915311"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary dark:text-primary-dark text-3xl hover:text-secondary dark:hover:text-secondary-dark transition"
+                      aria-label="LinkedIn"
+                    >
+                      <FiLinkedin />
+                    </a>
+                  </div>
+                  {sec.component}
                 </div>
               )}
             </motion.div>
           </section>
         ))}
       </main>
-
-      {/* Footer */}
       <footer className="fixed bottom-0 left-0 w-full bg-glass dark:bg-glass-dark backdrop-blur-xs border-t border-borderLight dark:border-borderLight-dark flex justify-center gap-10 py-3 shadow-glass dark:shadow-glass-dark z-40">
-       <a
-  href="https://github.com/AskewToe6174"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="GitHub"
->
-  <FiGithub />
-</a>
-<a
-  href="www.linkedin.com/in/ivan-carpinteiro-salazar-ab1915311"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="LinkedIn"
->
-  <FiLinkedin />
-</a>
-<a
-  href="mailto:carpinteirosalazari@gmail.com"
-  aria-label="Email"
->
-  <FiMail />
-</a>
-
+        <a
+          href="https://github.com/AskewToe6174"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+        >
+          <FiGithub className="text-textPrimary dark:text-white text-2xl hover:text-secondary dark:hover:text-secondary-dark transition" />
+        </a>
+        <a
+          href="https://www.linkedin.com/in/ivan-carpinteiro-salazar-ab1915311"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+        >
+          <FiLinkedin className="text-textPrimary dark:text-white text-2xl hover:text-secondary dark:hover:text-secondary-dark transition" />
+        </a>
+        <a
+          href="mailto:carpinteirosalazari@gmail.com"
+          aria-label="Email"
+        >
+          <FiMail className="text-textPrimary dark:text-white text-2xl hover:text-secondary dark:hover:text-secondary-dark transition" />
+        </a>
       </footer>
 
-      {/* Modal */}
       <Modal project={modalProject} onClose={() => setModalProject(null)} />
     </div>
   );
