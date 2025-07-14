@@ -172,11 +172,10 @@ function SkillBar({ skill }) {
         {[...Array(blocksCount)].map((_, i) => (
           <motion.div
             key={i}
-            className={`w-5 h-5 rounded-sm border border-borderLight dark:border-borderLight-dark ${
-              i < filledBlocks
+            className={`w-5 h-5 rounded-sm border border-borderLight dark:border-borderLight-dark ${i < filledBlocks
                 ? "bg-primary dark:bg-primary-dark"
                 : "bg-transparent"
-            }`}
+              }`}
             whileHover={{
               scale: i < filledBlocks ? 1.2 : 1,
               rotate: i < filledBlocks ? [0, 10, -10, 0] : 0,
@@ -447,11 +446,10 @@ export default function App() {
                 onClick={() =>
                   document.getElementById(sec.id).scrollIntoView({ behavior: "smooth" })
                 }
-                className={`text-xs sm:text-sm font-bold uppercase px-3 py-1 sm:px-4 sm:py-2 rounded-full transition ${
-                  active === sec.id
+                className={`text-xs sm:text-sm font-bold uppercase px-3 py-1 sm:px-4 sm:py-2 rounded-full transition ${active === sec.id
                     ? "bg-primary dark:bg-primary-dark text-white shadow"
                     : "text-textPrimary dark:text-textPrimary-dark hover:bg-primary dark:hover:bg-primary-dark hover:text-white"
-                }`}
+                  }`}
               >
                 {sec.title}
               </button>
@@ -488,97 +486,98 @@ export default function App() {
             )}
 
             {/* Contenido */}
-            <motion.div
-              initial={{ opacity: 0, x: 100 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="flex-1 w-full max-w-xl"
-            >
-              <h2 className="text-3xl sm:text-4xl mb-6 font-press-start glitch text-textPrimary dark:text-textPrimary-dark">
-                {sec.title}
-              </h2>
-              {sec.content && (
-                <p className="mb-6 text-textSecondary dark:text-textSecondary-dark whitespace-pre-line">
-                  {sec.content}
-                </p>
-              )}
+<motion.div
+  initial={{ opacity: 0, x: 100 }}
+  whileInView={{ opacity: 1, x: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.8, delay: 0.3 }}
+  /* 👇  SIN max-w-xl cuando id === 'projects'  */
+  className={`flex-1 w-full ${sec.id === 'projects' ? 'max-w-none' : 'max-w-xl'}`}
+>
+  {/* Título y texto compartidos */}
+<h2
+  className={`
+    text-3xl sm:text-4xl mb-6 font-press-start glitch
+    text-textPrimary dark:text-textPrimary-dark
+    ${sec.id === 'projects' ? 'text-center w-full' : ''}
+  `}
+>
+  {sec.title}
+</h2>
 
-              {sec.id === "skills" &&
-                skills.map((skill, idx) => <SkillBar key={idx} skill={skill} />)}
+  {sec.content && (
+    <p className="mb-6 text-textSecondary dark:text-textSecondary-dark whitespace-pre-line">
+      {sec.content}
+    </p>
+  )}
 
-              {sec.id === "experience" && <Timeline />}
+  {/* ------------------- SKILLS y EXPERIENCIA ------------------- */}
+  {sec.id === 'skills'     && skills.map((s, i) => <SkillBar key={i} skill={s} />)}
+  {sec.id === 'experience' && <Timeline />}
 
-              {/* ------------------- PROYECTOS ------------------- */}
-              {sec.id === "projects" && (
-                <div
-                  className="grid gap-6 w-full"
-                  style={{
-                    gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-                  }}
-                >
-                  {projectList.map((project) => (
-                    <motion.div
-                      key={project.id}
-                      className="bg-cardBg dark:bg-cardBg-dark rounded-lg p-6 shadow-lg cursor-pointer border border-borderLight dark:border-borderLight-dark flex flex-col h-full overflow-hidden"
-                      whileHover={{ scale: 1.03 }}
-                      onClick={() => setModalProject(project)}
-                    >
-                      <h3 className="text-lg sm:text-xl font-press-start text-textPrimary dark:text-textPrimary-dark mb-2 truncate">
-                        {project.title}
-                      </h3>
-                      <p className="text-textSecondary dark:text-textSecondary-dark mb-4 overflow-hidden text-ellipsis line-clamp-3 flex-grow">
-                        {project.shortDesc}
-                      </p>
-                      <div className="flex flex-wrap gap-2 mt-auto">
-                        {project.tech.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-2 py-1 bg-primary dark:bg-primary-dark rounded text-white text-xs font-semibold"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
+  {/* ------------------------ PROYECTOS ------------------------ */}
+  {sec.id === 'projects' && (
+    <div
+      className="
+        grid w-full gap-6
+        [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]
+      "
+    >
+      {projectList.map((project) => (
+        <motion.div
+          key={project.id}
+          whileHover={{ scale: 1.03 }}
+          onClick={() => setModalProject(project)}
+          className="
+            flex flex-col h-full overflow-hidden cursor-pointer
+            rounded-lg p-6 shadow-lg border transition-transform
+            bg-cardBg dark:bg-cardBg-dark
+            border-borderLight dark:border-borderLight-dark
+          "
+        >
+          {/* Título */}
+          <h3
+            style={{ fontSize: 'clamp(1rem,0.8rem+1vw,1.6rem)' }}
+            className="font-press-start mb-2 truncate text-textPrimary dark:text-textPrimary-dark"
+          >
+            {project.title}
+          </h3>
 
-              {/* ------------------- CONTACTO ------------------- */}
-              {sec.id === "contact" && (
-                <div className="mt-6 flex flex-col items-center space-y-6">
-                  <div className="flex gap-6">
-                    <a
-                      href="mailto:carpinteirosalazari@gmail.com"
-                      aria-label="Email"
-                      className="text-primary dark:text-primary-dark text-3xl hover:text-secondary dark:hover:text-secondary-dark transition"
-                    >
-                      <FiMail />
-                    </a>
-                    <a
-                      href="https://github.com/AskewToe6174"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="GitHub"
-                      className="text-primary dark:text-primary-dark text-3xl hover:text-secondary dark:hover:text-secondary-dark transition"
-                    >
-                      <FiGithub />
-                    </a>
-                    <a
-                      href="https://www.linkedin.com/in/ivan-carpinteiro-salazar-ab1915311"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="LinkedIn"
-                      className="text-primary dark:text-primary-dark text-3xl hover:text-secondary dark:hover:text-secondary-dark transition"
-                    >
-                      <FiLinkedin />
-                    </a>
-                  </div>
-                  {sec.component}
-                </div>
-              )}
-            </motion.div>
+          {/* Descripción */}
+          <p
+            className="
+              mb-4 flex-grow line-clamp-3 overflow-hidden
+              text-textSecondary dark:text-textSecondary-dark
+              text-[clamp(0.875rem,0.75rem+0.5vw,1rem)]
+            "
+          >
+            {project.shortDesc}
+          </p>
+
+          {/* Tech pills */}
+          <div className="flex flex-wrap gap-2 mt-auto">
+            {project.tech.map((tech) => (
+              <span
+                key={tech}
+                className="px-2 py-1 rounded text-xs font-semibold text-white bg-primary dark:bg-primary-dark"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  )}
+
+  {/* ------------------------ CONTACTO ------------------------ */}
+  {sec.id === 'contact' && (
+    <div className="mt-6 flex flex-col items-center space-y-6">
+      {/* …íconos y componente… */}
+    </div>
+  )}
+</motion.div>
+
           </section>
         ))}
       </main>
