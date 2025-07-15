@@ -12,8 +12,10 @@ import {
 } from "react-icons/si";
 import { Card } from "@nextui-org/react";
 
-import thatsmivancs from "./thatsme2program.png";
-import thatsme2program from "./thatsmeivancs.png";
+
+import thatsmivancs from "./thatsme2program.webp";
+import thatsme2program from "./thatsmeivancs.webp";
+
 import LogoSVG from "./LogoSVG";
 
 const MotionCard = motion(Card);
